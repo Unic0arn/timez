@@ -54,10 +54,15 @@ class ShiftFragment(models.Model):
     worker = models.ForeignKey(User)
     oblevel = models.ForeignKey(ObLevel)
     main_shift = models.ForeignKey(Shift)
+    length = models.DurationField()
     
     def __str__(self):
         return self.worker.username + ': ' + str(self.start_time) + ' - ' + str(self.end_time)
     
+#     def save(self,* args, **kwargs):
+#         super(ShiftFragment, self).save()
+    
+
     def length(self):
         return self.end_time - self.start_time
     

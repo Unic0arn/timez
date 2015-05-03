@@ -10,3 +10,18 @@
 {% else %}
     <p>No shifts registrered.</p>
 {% endif %}
+
+{% if ob_sums %}
+    <table>
+    {% for obl,td in ob_sums.items %}
+    
+        <tr>
+        <td>{{ obl.name }}</td>
+        <td>{{ obl.modification }}</td>
+        <td>{{ td }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+{% else %}
+    <p>No shifts registrered.</p>
+{% endif %}
