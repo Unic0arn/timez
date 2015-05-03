@@ -1,0 +1,678 @@
+[
+{
+  "fields": {
+    "model": "logentry",
+    "app_label": "admin"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 1
+},
+{
+  "fields": {
+    "model": "permission",
+    "app_label": "auth"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 2
+},
+{
+  "fields": {
+    "model": "group",
+    "app_label": "auth"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 3
+},
+{
+  "fields": {
+    "model": "user",
+    "app_label": "auth"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 4
+},
+{
+  "fields": {
+    "model": "contenttype",
+    "app_label": "contenttypes"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 5
+},
+{
+  "fields": {
+    "model": "session",
+    "app_label": "sessions"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 6
+},
+{
+  "fields": {
+    "model": "shift",
+    "app_label": "timereg"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 7
+},
+{
+  "fields": {
+    "model": "oblevel",
+    "app_label": "timereg"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 8
+},
+{
+  "fields": {
+    "model": "obtimes",
+    "app_label": "timereg"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 9
+},
+{
+  "fields": {
+    "model": "obspecials",
+    "app_label": "timereg"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 10
+},
+{
+  "fields": {
+    "model": "shiftfragment",
+    "app_label": "timereg"
+  },
+  "model": "contenttypes.contenttype",
+  "pk": 11
+},
+{
+  "fields": {
+    "expire_date": "2015-05-16T05:51:59.078Z",
+    "session_data": "YmFhMzg3YWY3ZTkzOWMyNmU2NGRmYjgyODc0ZGQ5NjRhOTMyMmYyODp7Il9hdXRoX3VzZXJfaGFzaCI6IjQxNWI2MmRmNDZlNGMyNjY0N2EwZGRjOTg2MWFiYjQ5NDY0YzlkYTIiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0="
+  },
+  "model": "sessions.session",
+  "pk": "r5sczzefb5liolo25l7e90ye1xi1e1vh"
+},
+{
+  "fields": {
+    "modification": "1.56",
+    "name": "weekend",
+    "description": "lol"
+  },
+  "model": "timereg.oblevel",
+  "pk": 1
+},
+{
+  "fields": {
+    "modification": "1.28",
+    "name": "evening",
+    "description": "kvallsob"
+  },
+  "model": "timereg.oblevel",
+  "pk": 2
+},
+{
+  "fields": {
+    "modification": "1.42",
+    "name": "night",
+    "description": "night"
+  },
+  "model": "timereg.oblevel",
+  "pk": 3
+},
+{
+  "fields": {
+    "modification": "2.12",
+    "name": "super weekend",
+    "description": "wow such ob"
+  },
+  "model": "timereg.oblevel",
+  "pk": 4
+},
+{
+  "fields": {
+    "modification": "1.00",
+    "name": "day",
+    "description": "regular day time"
+  },
+  "model": "timereg.oblevel",
+  "pk": 5
+},
+{
+  "fields": {
+    "oblevel": 2,
+    "start_time": "18:00:00",
+    "name": "monday evening",
+    "day": 0,
+    "end_time": "23:59:59"
+  },
+  "model": "timereg.obtimes",
+  "pk": 1
+},
+{
+  "fields": {
+    "oblevel": 3,
+    "start_time": "00:00:00",
+    "name": "monday morning",
+    "day": 0,
+    "end_time": "07:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 2
+},
+{
+  "fields": {
+    "oblevel": 3,
+    "start_time": "00:00:00",
+    "name": "tuesday morning",
+    "day": 1,
+    "end_time": "07:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 3
+},
+{
+  "fields": {
+    "oblevel": 2,
+    "start_time": "18:00:00",
+    "name": "tuesday evening",
+    "day": 1,
+    "end_time": "23:59:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 4
+},
+{
+  "fields": {
+    "oblevel": 3,
+    "start_time": "00:00:00",
+    "name": "wednesday morning",
+    "day": 2,
+    "end_time": "07:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 5
+},
+{
+  "fields": {
+    "oblevel": 2,
+    "start_time": "18:00:00",
+    "name": "wednesday evening",
+    "day": 2,
+    "end_time": "23:59:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 6
+},
+{
+  "fields": {
+    "oblevel": 3,
+    "start_time": "00:00:00",
+    "name": "thursday morning",
+    "day": 3,
+    "end_time": "07:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 7
+},
+{
+  "fields": {
+    "oblevel": 2,
+    "start_time": "18:00:00",
+    "name": "thursday evening",
+    "day": 3,
+    "end_time": "23:59:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 8
+},
+{
+  "fields": {
+    "oblevel": 3,
+    "start_time": "00:00:00",
+    "name": "friday morning",
+    "day": 4,
+    "end_time": "07:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 9
+},
+{
+  "fields": {
+    "oblevel": 2,
+    "start_time": "18:00:00",
+    "name": "friday evening",
+    "day": 4,
+    "end_time": "23:59:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 10
+},
+{
+  "fields": {
+    "oblevel": 1,
+    "start_time": "00:00:00",
+    "name": "saturday",
+    "day": 5,
+    "end_time": "23:59:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 11
+},
+{
+  "fields": {
+    "oblevel": 1,
+    "start_time": "00:00:00",
+    "name": "sunday",
+    "day": 6,
+    "end_time": "23:59:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 12
+},
+{
+  "fields": {
+    "oblevel": 5,
+    "start_time": "08:00:00",
+    "name": "monday day",
+    "day": 0,
+    "end_time": "18:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 13
+},
+{
+  "fields": {
+    "oblevel": 5,
+    "start_time": "08:00:00",
+    "name": "tuesday day",
+    "day": 1,
+    "end_time": "18:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 14
+},
+{
+  "fields": {
+    "oblevel": 5,
+    "start_time": "08:00:00",
+    "name": "wednesday day",
+    "day": 2,
+    "end_time": "18:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 15
+},
+{
+  "fields": {
+    "oblevel": 5,
+    "start_time": "08:00:00",
+    "name": "thursday day",
+    "day": 3,
+    "end_time": "18:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 16
+},
+{
+  "fields": {
+    "oblevel": 5,
+    "start_time": "08:00:00",
+    "name": "friday day",
+    "day": 4,
+    "end_time": "18:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 17
+},
+{
+  "fields": {
+    "oblevel": 3,
+    "start_time": "00:00:00",
+    "name": "weekday morning",
+    "day": -1,
+    "end_time": "07:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 18
+},
+{
+  "fields": {
+    "oblevel": 5,
+    "start_time": "07:00:00",
+    "name": "weekday day",
+    "day": -1,
+    "end_time": "18:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 19
+},
+{
+  "fields": {
+    "oblevel": 2,
+    "start_time": "18:00:00",
+    "name": "weekday evening",
+    "day": -1,
+    "end_time": "23:59:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 20
+},
+{
+  "fields": {
+    "codename": "add_logentry",
+    "name": "Can add log entry",
+    "content_type": 1
+  },
+  "model": "auth.permission",
+  "pk": 1
+},
+{
+  "fields": {
+    "codename": "change_logentry",
+    "name": "Can change log entry",
+    "content_type": 1
+  },
+  "model": "auth.permission",
+  "pk": 2
+},
+{
+  "fields": {
+    "codename": "delete_logentry",
+    "name": "Can delete log entry",
+    "content_type": 1
+  },
+  "model": "auth.permission",
+  "pk": 3
+},
+{
+  "fields": {
+    "codename": "add_permission",
+    "name": "Can add permission",
+    "content_type": 2
+  },
+  "model": "auth.permission",
+  "pk": 4
+},
+{
+  "fields": {
+    "codename": "change_permission",
+    "name": "Can change permission",
+    "content_type": 2
+  },
+  "model": "auth.permission",
+  "pk": 5
+},
+{
+  "fields": {
+    "codename": "delete_permission",
+    "name": "Can delete permission",
+    "content_type": 2
+  },
+  "model": "auth.permission",
+  "pk": 6
+},
+{
+  "fields": {
+    "codename": "add_group",
+    "name": "Can add group",
+    "content_type": 3
+  },
+  "model": "auth.permission",
+  "pk": 7
+},
+{
+  "fields": {
+    "codename": "change_group",
+    "name": "Can change group",
+    "content_type": 3
+  },
+  "model": "auth.permission",
+  "pk": 8
+},
+{
+  "fields": {
+    "codename": "delete_group",
+    "name": "Can delete group",
+    "content_type": 3
+  },
+  "model": "auth.permission",
+  "pk": 9
+},
+{
+  "fields": {
+    "codename": "add_user",
+    "name": "Can add user",
+    "content_type": 4
+  },
+  "model": "auth.permission",
+  "pk": 10
+},
+{
+  "fields": {
+    "codename": "change_user",
+    "name": "Can change user",
+    "content_type": 4
+  },
+  "model": "auth.permission",
+  "pk": 11
+},
+{
+  "fields": {
+    "codename": "delete_user",
+    "name": "Can delete user",
+    "content_type": 4
+  },
+  "model": "auth.permission",
+  "pk": 12
+},
+{
+  "fields": {
+    "codename": "add_contenttype",
+    "name": "Can add content type",
+    "content_type": 5
+  },
+  "model": "auth.permission",
+  "pk": 13
+},
+{
+  "fields": {
+    "codename": "change_contenttype",
+    "name": "Can change content type",
+    "content_type": 5
+  },
+  "model": "auth.permission",
+  "pk": 14
+},
+{
+  "fields": {
+    "codename": "delete_contenttype",
+    "name": "Can delete content type",
+    "content_type": 5
+  },
+  "model": "auth.permission",
+  "pk": 15
+},
+{
+  "fields": {
+    "codename": "add_session",
+    "name": "Can add session",
+    "content_type": 6
+  },
+  "model": "auth.permission",
+  "pk": 16
+},
+{
+  "fields": {
+    "codename": "change_session",
+    "name": "Can change session",
+    "content_type": 6
+  },
+  "model": "auth.permission",
+  "pk": 17
+},
+{
+  "fields": {
+    "codename": "delete_session",
+    "name": "Can delete session",
+    "content_type": 6
+  },
+  "model": "auth.permission",
+  "pk": 18
+},
+{
+  "fields": {
+    "codename": "add_shift",
+    "name": "Can add shift",
+    "content_type": 7
+  },
+  "model": "auth.permission",
+  "pk": 19
+},
+{
+  "fields": {
+    "codename": "change_shift",
+    "name": "Can change shift",
+    "content_type": 7
+  },
+  "model": "auth.permission",
+  "pk": 20
+},
+{
+  "fields": {
+    "codename": "delete_shift",
+    "name": "Can delete shift",
+    "content_type": 7
+  },
+  "model": "auth.permission",
+  "pk": 21
+},
+{
+  "fields": {
+    "codename": "add_oblevel",
+    "name": "Can add ob level",
+    "content_type": 8
+  },
+  "model": "auth.permission",
+  "pk": 22
+},
+{
+  "fields": {
+    "codename": "change_oblevel",
+    "name": "Can change ob level",
+    "content_type": 8
+  },
+  "model": "auth.permission",
+  "pk": 23
+},
+{
+  "fields": {
+    "codename": "delete_oblevel",
+    "name": "Can delete ob level",
+    "content_type": 8
+  },
+  "model": "auth.permission",
+  "pk": 24
+},
+{
+  "fields": {
+    "codename": "add_obtimes",
+    "name": "Can add ob times",
+    "content_type": 9
+  },
+  "model": "auth.permission",
+  "pk": 25
+},
+{
+  "fields": {
+    "codename": "change_obtimes",
+    "name": "Can change ob times",
+    "content_type": 9
+  },
+  "model": "auth.permission",
+  "pk": 26
+},
+{
+  "fields": {
+    "codename": "delete_obtimes",
+    "name": "Can delete ob times",
+    "content_type": 9
+  },
+  "model": "auth.permission",
+  "pk": 27
+},
+{
+  "fields": {
+    "codename": "add_obspecials",
+    "name": "Can add ob specials",
+    "content_type": 10
+  },
+  "model": "auth.permission",
+  "pk": 28
+},
+{
+  "fields": {
+    "codename": "change_obspecials",
+    "name": "Can change ob specials",
+    "content_type": 10
+  },
+  "model": "auth.permission",
+  "pk": 29
+},
+{
+  "fields": {
+    "codename": "delete_obspecials",
+    "name": "Can delete ob specials",
+    "content_type": 10
+  },
+  "model": "auth.permission",
+  "pk": 30
+},
+{
+  "fields": {
+    "codename": "add_shiftfragment",
+    "name": "Can add shift fragment",
+    "content_type": 11
+  },
+  "model": "auth.permission",
+  "pk": 31
+},
+{
+  "fields": {
+    "codename": "change_shiftfragment",
+    "name": "Can change shift fragment",
+    "content_type": 11
+  },
+  "model": "auth.permission",
+  "pk": 32
+},
+{
+  "fields": {
+    "codename": "delete_shiftfragment",
+    "name": "Can delete shift fragment",
+    "content_type": 11
+  },
+  "model": "auth.permission",
+  "pk": 33
+},
+{
+  "fields": {
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "is_active": true,
+    "is_superuser": true,
+    "is_staff": true,
+    "last_login": "2015-05-02T05:51:59.065Z",
+    "groups": [],
+    "user_permissions": [],
+    "password": "pbkdf2_sha256$20000$t8ibNGahzlEE$z44EgFCAaFzx4myKuZXky0NbcOt+WMg7hdEDw8T+QiQ=",
+    "email": "fhallb@kth.se",
+    "date_joined": "2015-05-02T05:51:31.210Z"
+  },
+  "model": "auth.user",
+  "pk": 1
+}
+]
