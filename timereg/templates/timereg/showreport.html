@@ -1,0 +1,12 @@
+{% if shift_list %}
+    <table>
+    {% for shiftfragment in shift_list %}
+        <tr>
+        <td>{{ shiftfragment.start_time }}</td>
+        <td>{{ shiftfragment.end_time }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+{% else %}
+    <p>No shifts registrered.</p>
+{% endif %}
