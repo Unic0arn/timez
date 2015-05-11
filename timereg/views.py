@@ -27,13 +27,19 @@ def addreport(request):
     userobj = User.objects.all().get(pk=request.POST['user'])
     for x in monthdays:
         try:
-            shift_type = defaultshift_list.get(pk=request.POST[str(x.toordinal())])
-            new_start_time = datetime.combine(x,shift_type.start_time)
-            if "Night" in shift_type.name:
-                new_end_time = datetime.combine(x   + timedelta(days=1), shift_type.end_time)
-                
+            start_time = request.POST[str(x.toordinal())+'-start_time']
+            end_time = request.POST[str(x.toordinal())+'-end_time']
+            if start_time is '' or end_time is '':
+                continue 
+            
+            start = datetime.strptime(start_time, "%H:%M").time()
+            end = datetime.strptime(end_time, "%H:%M").time()
+            
+            new_start_time = datetime.combine(x,start)
+            if end_time < start_time: #Overnight
+                new_end_time = datetime.combine(x + timedelta(days=1), end)
             else:
-                new_end_time = datetime.combine(x, shift_type.end_time)
+                new_end_time = datetime.combine(x, end)
                 
             newshift = Shift(start_time = new_start_time, end_time = new_end_time, worker = userobj)
             newshift.save()
@@ -47,7 +53,11 @@ def entershifts(request):
     today = date.today()
     cal = Calendar()
     monthdays = cal.itermonthdates(today.year, today.month)
+    pos_defshifts = []
     
+    monthdays2 = []
+    for m in monthdays:
+        monthdays2[m] = m.weekday()
     
     template = loader.get_template('timereg/entershifts.html')
     context = RequestContext(request, {'today' : today, 'monthdays' : monthdays, 'defaultshift_list' : defaultshift_list})

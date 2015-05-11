@@ -1,15 +1,20 @@
 {% load staticfiles %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'timereg/style.css' %}" />
-<!-- Latest compiled and minified CSS 
+<!-- Latest compiled and minified CSS --> 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
--->
+
 <!-- Optional theme -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
+<script>
+function autoFill(day, start_time, end_time) {
+    document.getElementById(day+"-start_time").value = start_time
+    document.getElementById(day+"-end_time").value = end_time
+}
+</script>
 
 <h1> Enter your shifts for month {{today.month}} </h1>
 <form action="{% url 'timereg:addreport' %}" method="post">
@@ -17,20 +22,24 @@
     <input name="year" value="{{today.year}}">
     <input name="month" value="{{today.month}}">
     <input name="user" value="1">
-    <table>
+    <table class="table">
     <tr>
     <th> Shift starting on day: </th>
     {% for defshift in defaultshift_list %}
-        <th>{{defshift.name}} {{defshift.start_time }} {{defshift.end_time }}</th>
+        <th>{{defshift.name}} <br>{{defshift.start_time|date:"H:i"}} - {{defshift.end_time|date:"H:i"}}</th>
     {% endfor %}
     </tr>
     {% for day in monthdays %}
         {% if day.month = today.month %}
             <tr>
                 <td> {{ day }} </td>
+                    
                     {% for defshift in defaultshift_list %}
-                        <td class="radio"><input type="radio" name="{{day.toordinal}}" value="{{defshift.pk}}"/></td>
+                        <td align="center"><input type="button" onclick="autoFill('{{day.toordinal}}','{{defshift.start_time|date:"H:i"}}', '{{defshift.end_time|date:"H:i"}}')" value="Fill"/></td>
                     {% endfor %}
+                    
+                    <td> <input id="{{day.toordinal}}-start_time" class="{{day.toordinal}}" type="time" name="{{day.toordinal}}-start_time"/></td>
+                    <td> <input id="{{day.toordinal}}-end_time" class="{{day.toordinal}}" type="time" name="{{day.toordinal}}-end_time"/></td>
 
             </tr>
         {% endif %}
