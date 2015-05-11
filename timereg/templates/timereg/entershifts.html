@@ -21,7 +21,7 @@
     <tr>
     <th> Shift starting on day: </th>
     {% for defshift in defaultshift_list %}
-        <th>{{defshift.name}}</th>
+        <th>{{defshift.name}} {{defshift.start_time }} {{defshift.end_time }}</th>
     {% endfor %}
     </tr>
     {% for day in monthdays %}

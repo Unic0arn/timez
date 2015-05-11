@@ -10,8 +10,6 @@ from collections import OrderedDict
 from django.contrib.auth.models import User
 from calendar import monthrange,Calendar
 from django.core.urlresolvers import reverse
-
-
 def index(request):
     
     return HttpResponse("Hello, world. You're at the index page.")
@@ -40,9 +38,10 @@ def addreport(request):
             newshift = Shift(start_time = new_start_time, end_time = new_end_time, worker = userobj)
             newshift.save()
         except KeyError:
-    
+            pass
     
     return HttpResponseRedirect(reverse('timereg:showreport', args=(userobj.pk,year,month)))
+
 def entershifts(request):
     defaultshift_list = ShiftDefault.objects.all()
     today = date.today()
@@ -51,7 +50,7 @@ def entershifts(request):
     
     
     template = loader.get_template('timereg/entershifts.html')
-    context = RequestContext(request, {'today' : today, 'monthdays' : list(monthdays), 'defaultshift_list' : defaultshift_list})
+    context = RequestContext(request, {'today' : today, 'monthdays' : monthdays, 'defaultshift_list' : defaultshift_list})
     return HttpResponse(template.render(context))
 
 def showreport(request, user, year, month):
@@ -60,22 +59,26 @@ def showreport(request, user, year, month):
     oblevels = ObLevel.objects.order_by('modification')
     userobj = User.objects.all().get(pk=user)
     ob_sums = OrderedDict.fromkeys(oblevels,(timedelta(0)))
-    
+    total_time = timedelta(0)
     for o in shiftfragment_list:
         curdelta = ob_sums[o.oblevel] 
         ob_sums[o.oblevel] = curdelta + o.length
+        total_time += o.length
     
     
-    
+    for k, v in ob_sums.items():
+        ob_sums[k] = hours_minutes_seconds(v)
     
     template = loader.get_template('timereg/showreport.html')
     context = RequestContext(request, {'shift_list' : shift_list, 
                                        'ob_sums' : ob_sums, 
                                        'oblevels' : oblevels, 
                                        'user' : userobj, 
-                                       'totaltime':shift_list.aggregate(Sum('length'))})
+                                       'total_time':hours_minutes_seconds(total_time)})
     return HttpResponse(template.render(context))
 
 
     
-    
+def hours_minutes_seconds(td):
+    seconds = td.total_seconds()
+    return (int(seconds//(60*60)), int((seconds%3600)/60), int(seconds%60)) 
