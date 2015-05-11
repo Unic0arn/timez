@@ -1,0 +1,267 @@
+[
+{
+  "fields": {
+    "modification": "1.56",
+    "name": "weekend",
+    "description": "lol"
+  },
+  "model": "timereg.oblevel",
+  "pk": 1
+},
+{
+  "fields": {
+    "modification": "1.28",
+    "name": "evening",
+    "description": "kvallsob"
+  },
+  "model": "timereg.oblevel",
+  "pk": 2
+},
+{
+  "fields": {
+    "modification": "1.42",
+    "name": "night",
+    "description": "night"
+  },
+  "model": "timereg.oblevel",
+  "pk": 3
+},
+{
+  "fields": {
+    "modification": "2.12",
+    "name": "super weekend",
+    "description": "wow such ob"
+  },
+  "model": "timereg.oblevel",
+  "pk": 4
+},
+{
+  "fields": {
+    "modification": "1.00",
+    "name": "day",
+    "description": "regular day time"
+  },
+  "model": "timereg.oblevel",
+  "pk": 5
+},
+{
+  "fields": {
+    "oblevel": 2,
+    "start_time": "18:00:00",
+    "name": "monday evening",
+    "day": 0,
+    "end_time": "23:59:59"
+  },
+  "model": "timereg.obtimes",
+  "pk": 1
+},
+{
+  "fields": {
+    "oblevel": 3,
+    "start_time": "00:00:00",
+    "name": "monday morning",
+    "day": 0,
+    "end_time": "07:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 2
+},
+{
+  "fields": {
+    "oblevel": 3,
+    "start_time": "00:00:00",
+    "name": "tuesday morning",
+    "day": 1,
+    "end_time": "07:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 3
+},
+{
+  "fields": {
+    "oblevel": 2,
+    "start_time": "18:00:00",
+    "name": "tuesday evening",
+    "day": 1,
+    "end_time": "23:59:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 4
+},
+{
+  "fields": {
+    "oblevel": 3,
+    "start_time": "00:00:00",
+    "name": "wednesday morning",
+    "day": 2,
+    "end_time": "07:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 5
+},
+{
+  "fields": {
+    "oblevel": 2,
+    "start_time": "18:00:00",
+    "name": "wednesday evening",
+    "day": 2,
+    "end_time": "23:59:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 6
+},
+{
+  "fields": {
+    "oblevel": 3,
+    "start_time": "00:00:00",
+    "name": "thursday morning",
+    "day": 3,
+    "end_time": "07:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 7
+},
+{
+  "fields": {
+    "oblevel": 2,
+    "start_time": "18:00:00",
+    "name": "thursday evening",
+    "day": 3,
+    "end_time": "23:59:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 8
+},
+{
+  "fields": {
+    "oblevel": 3,
+    "start_time": "00:00:00",
+    "name": "friday morning",
+    "day": 4,
+    "end_time": "07:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 9
+},
+{
+  "fields": {
+    "oblevel": 2,
+    "start_time": "18:00:00",
+    "name": "friday evening",
+    "day": 4,
+    "end_time": "23:59:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 10
+},
+{
+  "fields": {
+    "oblevel": 1,
+    "start_time": "00:00:00",
+    "name": "saturday",
+    "day": 5,
+    "end_time": "23:59:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 11
+},
+{
+  "fields": {
+    "oblevel": 1,
+    "start_time": "00:00:00",
+    "name": "sunday",
+    "day": 6,
+    "end_time": "23:59:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 12
+},
+{
+  "fields": {
+    "oblevel": 5,
+    "start_time": "08:00:00",
+    "name": "monday day",
+    "day": 0,
+    "end_time": "18:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 13
+},
+{
+  "fields": {
+    "oblevel": 5,
+    "start_time": "08:00:00",
+    "name": "tuesday day",
+    "day": 1,
+    "end_time": "18:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 14
+},
+{
+  "fields": {
+    "oblevel": 5,
+    "start_time": "08:00:00",
+    "name": "wednesday day",
+    "day": 2,
+    "end_time": "18:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 15
+},
+{
+  "fields": {
+    "oblevel": 5,
+    "start_time": "08:00:00",
+    "name": "thursday day",
+    "day": 3,
+    "end_time": "18:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 16
+},
+{
+  "fields": {
+    "oblevel": 5,
+    "start_time": "08:00:00",
+    "name": "friday day",
+    "day": 4,
+    "end_time": "18:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 17
+},
+{
+  "fields": {
+    "oblevel": 3,
+    "start_time": "00:00:00",
+    "name": "weekday morning",
+    "day": -1,
+    "end_time": "07:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 18
+},
+{
+  "fields": {
+    "oblevel": 5,
+    "start_time": "07:00:00",
+    "name": "weekday day",
+    "day": -1,
+    "end_time": "18:00:00"
+  },
+  "model": "timereg.obtimes",
+  "pk": 19
+},
+{
+  "fields": {
+    "oblevel": 2,
+    "start_time": "18:00:00",
+    "name": "weekday evening",
+    "day": -1,
+    "end_time": "23:59:59"
+  },
+  "model": "timereg.obtimes",
+  "pk": 20
+}
+]

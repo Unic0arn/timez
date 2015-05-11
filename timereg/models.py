@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime,timedelta,time
+from datetime import datetime,timedelta,time,date
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist,MultipleObjectsReturned
 from calendar import weekday
@@ -9,16 +9,16 @@ class Shift(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     worker = models.ForeignKey(User)
+    length = models.DurationField(blank=True, editable = False  )
     
     def __str__(self):
         return self.worker.username + ': ' + str(self.start_time) + ' - ' + str(self.end_time)
       
     def save(self,* args, **kwargs):
+        self.length = self.end_time - self.start_time
         super(Shift, self).save(*args, **kwargs)
         splitShift(self)
-         
-    def length(self):
-        return self.end_time - self.start_time
+
     
     
 class ObLevel(models.Model):
@@ -54,18 +54,34 @@ class ShiftFragment(models.Model):
     worker = models.ForeignKey(User)
     oblevel = models.ForeignKey(ObLevel)
     main_shift = models.ForeignKey(Shift)
-    length = models.DurationField()
+    length = models.DurationField(blank = True, editable = False )
     
     def __str__(self):
         return self.worker.username + ': ' + str(self.start_time) + ' - ' + str(self.end_time)
     
-#     def save(self,* args, **kwargs):
-#         super(ShiftFragment, self).save()
+    def save(self,* args, **kwargs):
+        self.length = self.end_time - self.start_time
+        super(ShiftFragment, self).save()
     
-
-    def length(self):
-        return self.end_time - self.start_time
+    # Needs to be renamed -.-'
+class ShiftDefault(models.Model): # TODO Needs system to determine what kind of shift is possible.
+    name = models.CharField(max_length=255)
+    start_time = models.TimeField()
+    end_time   = models.TimeField()
+    length = models.DurationField(blank = True, editable = False)
+        
+    def __str__(self):
+        return self.name+ ': ' + str(self.start_time) + ' - ' + str(self.length)
     
+    
+    def save(self,* args, **kwargs):
+        
+        if self.end_time < self.start_time:
+            self.length = datetime.combine(date.today() + timedelta(days=1), self.end_time) - datetime.combine(date.today(), self.start_time)
+        else:
+            self.length = datetime.combine(date.today(), self.end_time) - datetime.combine(date.today(), self.start_time)
+            print(self.length)
+        super(ShiftDefault, self).save()
     
 def splitShift(shift):
         

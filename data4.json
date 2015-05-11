@@ -1,0 +1,142 @@
+[
+{
+  "model": "timereg.oblevel",
+  "fields": {
+    "name": "weekend",
+    "modification": "1.56",
+    "description": "lol"
+  },
+  "pk": 1
+},
+{
+  "model": "timereg.oblevel",
+  "fields": {
+    "name": "evening",
+    "modification": "1.28",
+    "description": "kvallsob"
+  },
+  "pk": 2
+},
+{
+  "model": "timereg.oblevel",
+  "fields": {
+    "name": "night",
+    "modification": "1.42",
+    "description": "night"
+  },
+  "pk": 3
+},
+{
+  "model": "timereg.oblevel",
+  "fields": {
+    "name": "super weekend",
+    "modification": "2.12",
+    "description": "wow such ob"
+  },
+  "pk": 4
+},
+{
+  "model": "timereg.oblevel",
+  "fields": {
+    "name": "day",
+    "modification": "1.00",
+    "description": "regular day time"
+  },
+  "pk": 5
+},
+{
+  "model": "timereg.obtimes",
+  "fields": {
+    "name": "saturday",
+    "start_time": "00:00:00",
+    "oblevel": 1,
+    "end_time": "23:59:59",
+    "day": 5
+  },
+  "pk": 11
+},
+{
+  "model": "timereg.obtimes",
+  "fields": {
+    "name": "sunday",
+    "start_time": "00:00:00",
+    "oblevel": 1,
+    "end_time": "23:59:59",
+    "day": 6
+  },
+  "pk": 12
+},
+{
+  "model": "timereg.obtimes",
+  "fields": {
+    "name": "weekday morning",
+    "start_time": "00:00:00",
+    "oblevel": 3,
+    "end_time": "07:00:00",
+    "day": -1
+  },
+  "pk": 18
+},
+{
+  "model": "timereg.obtimes",
+  "fields": {
+    "name": "weekday day",
+    "start_time": "07:00:00",
+    "oblevel": 5,
+    "end_time": "18:00:00",
+    "day": -1
+  },
+  "pk": 19
+},
+{
+  "model": "timereg.obtimes",
+  "fields": {
+    "name": "weekday evening",
+    "start_time": "18:00:00",
+    "oblevel": 2,
+    "end_time": "23:59:59",
+    "day": -1
+  },
+  "pk": 20
+},
+{
+  "model": "timereg.shiftdefault",
+  "fields": {
+    "name": "Night",
+    "start_time": "23:30:00",
+    "end_time": "08:20:00",
+    "length": "08:50:00"
+  },
+  "pk": 3
+},
+{
+  "model": "timereg.shiftdefault",
+  "fields": {
+    "name": "Evening",
+    "start_time": "16:45:00",
+    "end_time": "23:45:00",
+    "length": "07:00:00"
+  },
+  "pk": 4
+},
+{
+  "model": "timereg.shiftdefault",
+  "fields": {
+    "name": "Weekend Night",
+    "start_time": "23:30:00",
+    "end_time": "11:45:00",
+    "length": "12:15:00"
+  },
+  "pk": 5
+},
+{
+  "model": "timereg.shiftdefault",
+  "fields": {
+    "name": "Weekend Day",
+    "start_time": "11:30:00",
+    "end_time": "23:45:00",
+    "length": "12:15:00"
+  },
+  "pk": 6
+}
+]
