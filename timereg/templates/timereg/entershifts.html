@@ -29,13 +29,37 @@ function autoFill(day, start_time, end_time) {
         <th>{{defshift.name}} <br>{{defshift.start_time|date:"H:i"}} - {{defshift.end_time|date:"H:i"}}</th>
     {% endfor %}
     </tr>
-    {% for day in monthdays %}
-        {% if day.month = today.month %}
+    
+    {% for day,weekday in monthdays %}
+        {% if day.month == today.month %}
+            
             <tr>
-                <td> {{ day }} </td>
+                <td> {{ day|date:"D d M Y" }} </td>
                     
                     {% for defshift in defaultshift_list %}
-                        <td align="center"><input type="button" onclick="autoFill('{{day.toordinal}}','{{defshift.start_time|date:"H:i"}}', '{{defshift.end_time|date:"H:i"}}')" value="Fill"/></td>
+                   <td align="center">
+                        {% if weekday < 4 %}
+                            {% if defshift.name == "Evening" or defshift.name == "Night" %}
+                                <input type="button" onclick="autoFill('{{day.toordinal}}','{{defshift.start_time|date:"H:i"}}', '{{defshift.end_time|date:"H:i"}}')" value="Fill"/>
+                            {% endif %}  
+                        
+                        {% elif weekday == 4 %}
+                            {% if defshift.name == "Evening" or defshift.name == "Weekend Night" %}
+                            <input type="button" onclick="autoFill('{{day.toordinal}}','{{defshift.start_time|date:"H:i"}}', '{{defshift.end_time|date:"H:i"}}')" value="Fill"/>
+                            {% endif %}
+                        
+                        {% elif weekday == 5 %}
+                            {% if defshift.name == "Weekend Day" or defshift.name == "Weekend Night" %}
+                            <input type="button" onclick="autoFill('{{day.toordinal}}','{{defshift.start_time|date:"H:i"}}', '{{defshift.end_time|date:"H:i"}}')" value="Fill"/>
+                            {% endif %}
+                        
+                        {% elif weekday == 6 %}
+                            {% if defshift.name == "Weekend Day" or defshift.name == "Night" %}
+                            <input type="button" onclick="autoFill('{{day.toordinal}}','{{defshift.start_time|date:"H:i"}}', '{{defshift.end_time|date:"H:i"}}')" value="Fill"/>
+                            {% endif %}
+                        
+                        {% endif %}
+                    </td>
                     {% endfor %}
                     
                     <td> <input id="{{day.toordinal}}-start_time" class="{{day.toordinal}}" type="time" name="{{day.toordinal}}-start_time"/></td>
