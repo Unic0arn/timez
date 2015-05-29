@@ -5,11 +5,11 @@ from .models import *
 
 class ShiftAdmin(admin.ModelAdmin):
     readonly_fields = ('length',)
-    list_display = ('worker', 'start_time','end_time','length')
+    list_display = ('start_time','end_time','length')
     
 class ShiftFragmentAdmin(admin.ModelAdmin):
     readonly_fields = ('length',)
-    list_display = ('worker', 'start_time','end_time','oblevel','length')
+    list_display = ('start_time','end_time','oblevel','length')
 
 class ShiftDefaultAdmin(admin.ModelAdmin):
     readonly_fields = ('length',)

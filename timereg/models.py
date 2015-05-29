@@ -5,22 +5,7 @@ from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist,MultipleObjectsReturned
 from calendar import weekday
 # Create your models here.
-class Shift(models.Model):
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
-    worker = models.ForeignKey(User)
-    length = models.DurationField(blank=True, editable = False  )
-    
-    def __str__(self):
-        return self.worker.username + ': ' + str(self.start_time) + ' - ' + str(self.end_time)
-      
-    def save(self,* args, **kwargs):
-        self.length = self.end_time - self.start_time
-        super(Shift, self).save(*args, **kwargs)
-        splitShift(self)
 
-    
-    
 class ObLevel(models.Model):
     name = models.CharField(max_length=255)
     modification = models.DecimalField(max_digits=3,decimal_places=2)
@@ -47,21 +32,48 @@ class ObSpecials(models.Model):
     
     def __str__(self):
         return self.name
+  
+  
+
+class MonthlyReport(models.Model):
+    month = models.DateField()
+    user = models.ForeignKey(User)
+    
+    def __str__(self):
+        return self.month
+
+    
+class Shift(models.Model):
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    length = models.DurationField(blank=True, editable = False  )
+    monthly_report = models.ForeignKey(MonthlyReport,default=0)
+    
+    def __str__(self):
+        return  str(self.monthly_report.user) + ' - ' + str(self.start_time) + ' - ' + str(self.end_time)
+      
+    def save(self,* args, **kwargs):
+        self.length = self.end_time - self.start_time
+        super(Shift, self).save(*args, **kwargs)
+        splitShift(self)
+      
     
 class ShiftFragment(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
-    worker = models.ForeignKey(User)
     oblevel = models.ForeignKey(ObLevel)
     main_shift = models.ForeignKey(Shift)
     length = models.DurationField(blank = True, editable = False )
     
     def __str__(self):
-        return self.worker.username + ': ' + str(self.start_time) + ' - ' + str(self.end_time)
+        return self.main_shift.monthly_report.user + ': ' + str(self.start_time) + ' - ' + str(self.end_time)
     
     def save(self,* args, **kwargs):
         self.length = self.end_time - self.start_time
         super(ShiftFragment, self).save()
+    
+    
+    
     
     # Needs to be renamed -.-'
 class ShiftDefault(models.Model): # TODO Needs system to determine what kind of shift is possible.
@@ -106,6 +118,8 @@ def splitShift(shift):
         shift.start_time= fragment_end_time
         return [fragment, splitShift(shift)]
         
+        
+
     
 def findObTime(start_date):
     
