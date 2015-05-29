@@ -2,7 +2,7 @@ from django import forms
 
 import datetime
 import re
-
+from timereg.models import Shift
 from django.forms.widgets import Widget, Select
 from django.utils.dates import MONTHS
 from django.utils.safestring import mark_safe
@@ -10,6 +10,17 @@ from django.utils.safestring import mark_safe
 __all__ = ('MonthYearWidget',)
 
 RE_DATE = re.compile(r'(\d{4})-(\d\d?)-(\d\d?)$')
+
+
+class ShiftForm(forms.ModelForm):
+    class Meta:
+        model = Shift
+        fields = ['start_time','end_time','monthly_report']
+    
+
+class ExtendedShiftForm(forms.Form):
+    pass
+    
 
 class MonthYearWidget(Widget):
     """

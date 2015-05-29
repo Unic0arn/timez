@@ -73,7 +73,12 @@ class ShiftFragment(models.Model):
         super(ShiftFragment, self).save()
     
     
+class Day(models.Model):
+    number = models.IntegerField()
+    name = models.CharField(max_length=10)    
     
+    def __str__(self):
+        return self.name
     
     # Needs to be renamed -.-'
 class ShiftDefault(models.Model): # TODO Needs system to determine what kind of shift is possible.
@@ -81,7 +86,7 @@ class ShiftDefault(models.Model): # TODO Needs system to determine what kind of 
     start_time = models.TimeField()
     end_time   = models.TimeField()
     length = models.DurationField(blank = True, editable = False)
-        
+    possible_days = models.ManyToManyField(Day)
     def __str__(self):
         return self.name+ ': ' + str(self.start_time) + ' - ' + str(self.length)
     
@@ -99,9 +104,9 @@ def splitShift(shift):
         
     start_date = shift.start_time.date()
     ob = findObTime(shift.start_time)
-    if hasattr(ob,'day'):
+    if hasattr(ob,'day'): # Regular OB time
         ob_end_datetime = datetime.combine(start_date,ob.end_time)
-    else:
+    else: # We found a super weekend
         ob_end_datetime = min(shift.end_time,ob.end_time)
         
     if ob.end_time == time(23,59,59):

@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponseRedirect,HttpResponse
-from timereg.models import Shift, ShiftFragment, ObLevel, ShiftDefault
+from timereg.models import Shift, ShiftFragment, ObLevel, ShiftDefault, Day
 from datetime import time, datetime,timedelta, date
 from django.template import RequestContext, loader
 from django.db.models import Avg, Sum
@@ -71,8 +71,8 @@ def entershifts(request):
     monthdays3 = []
     for w in weekdays:
         if w[0] != 0:
-            monthdays3.append((datetime(year,month,w[0]), w[1]))
-    
+            monthdays3.append((datetime(year,month,w[0]), Day.objects.get(number = w[1])))
+
     template = loader.get_template('timereg/entershifts.html')
     context = RequestContext(request, {'monthform' : monthform, 'year':  year, 'month' : month, 'monthdays' : monthdays3, 'defaultshift_list' : defaultshift_list})
     return HttpResponse(template.render(context))
