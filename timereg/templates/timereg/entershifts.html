@@ -1,14 +1,4 @@
-{% load staticfiles %}
-
-<link rel="stylesheet" type="text/css" href="{% static 'timereg/style.css' %}" />
-<!-- Latest compiled and minified CSS --> 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+{% extends 'timereg/base.html' %}
 <script>
 function autoFill(day, start_time, end_time) {
     document.getElementById(day+"-start_time").value = start_time
@@ -16,12 +6,27 @@ function autoFill(day, start_time, end_time) {
 }
 </script>
 
-<h1> Enter your shifts for month {{today.month}} </h1>
-<form action="{% url 'timereg:addreport' %}" method="post">
+{% block title %}Enter Shifts{% endblock %}
+
+{% block body_block %}
+
+<h1> Enter your shifts for month {{month}} </h1>
+
+
+<form action="{% url 'timereg:entershifts' %}" method="post">
+    
     {% csrf_token %}
-    <input name="year" value="{{today.year}}">
-    <input name="month" value="{{today.month}}">
-    <input name="user" value="1">
+
+    <input name="month" type="date">
+    <input type="submit" value="Select month" />
+</form>
+
+
+<form action="{% url 'timereg:addreport' %}" method="post">
+    <input type="hidden" name="user" value="1">
+    <input name="month" value="{{month}}" type="hidden">
+    <input name="year" value="{{year}}" type="hidden">
+    {% csrf_token %}
     <table class="table">
     <tr>
     <th> Shift starting on day: </th>
@@ -31,7 +36,7 @@ function autoFill(day, start_time, end_time) {
     </tr>
     
     {% for day,weekday in monthdays %}
-        {% if day.month == today.month %}
+        {% if day.month == month %}
             
             <tr>
                 <td> {{ day|date:"D d M Y" }} </td>
@@ -69,6 +74,7 @@ function autoFill(day, start_time, end_time) {
         {% endif %}
     {% endfor %}
     </table>
+    
     <input type="submit" value="Skicka" />
 </form>
-    
+{% endblock %}

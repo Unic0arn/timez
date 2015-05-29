@@ -1,0 +1,7 @@
+<ul>
+    {% for page in navigation %}
+        <li{% ifequal object.slug page.slug %} class="active"{% endifequal %}>
+            <a href="{{ page.get_absolute_url }}">{{ page.title }}</a>
+        </li>
+    {% endfor %}
+</ul>

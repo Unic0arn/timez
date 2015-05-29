@@ -10,6 +10,7 @@ from collections import OrderedDict
 from django.contrib.auth.models import User
 from calendar import monthrange,Calendar
 from django.core.urlresolvers import reverse
+from timereg.forms import MonthSelectorForm
 def index(request):
     
     return HttpResponse("Hello, world. You're at the index page.")
@@ -49,15 +50,23 @@ def addreport(request):
     return HttpResponseRedirect(reverse('timereg:showreport', args=(userobj.pk,year,month)))
 
 def entershifts(request):
+    if request.method == 'POST':
+        print(request.POST)
+    try:
+        newdate = datetime.strptime(request.POST['month'],"%Y-%m-%d")
+        year = newdate.year
+        month = newdate.month
+    except KeyError:
+        today = date.today()
+        year = today.year
+        month = today.month
+            
     defaultshift_list = ShiftDefault.objects.all()
-    today = date.today()
-    year = today.year
-    month = today.month
     cal = Calendar()
     monthdays = cal.itermonthdates(year, month)
     weekdays = cal.itermonthdays2(year, month)
     
-    
+    monthform = MonthSelectorForm()
     
     monthdays3 = []
     for w in weekdays:
@@ -65,7 +74,7 @@ def entershifts(request):
             monthdays3.append((datetime(year,month,w[0]), w[1]))
     
     template = loader.get_template('timereg/entershifts.html')
-    context = RequestContext(request, {'today' : today, 'monthdays' : monthdays3, 'defaultshift_list' : defaultshift_list})
+    context = RequestContext(request, {'monthform' : monthform, 'year':  year, 'month' : month, 'monthdays' : monthdays3, 'defaultshift_list' : defaultshift_list})
     return HttpResponse(template.render(context))
 
 
