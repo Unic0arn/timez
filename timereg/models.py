@@ -41,6 +41,9 @@ class MonthlyReport(models.Model):
     
     def __str__(self):
         return str(self.month)
+    
+    class Meta:
+        unique_together = ("month","user")
 
     
 class Shift(models.Model):

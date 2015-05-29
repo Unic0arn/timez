@@ -47,7 +47,9 @@ def addreport(request):
         except KeyError:
             pass
     
-    return HttpResponseRedirect(reverse('timereg:showreport', args=(userobj.pk,year,month)))
+    
+    
+    return HttpResponseRedirect(reverse('timereg:showreport', args=(userobj.pk, year, month)))
 
 def entershifts(request):
     if request.method == 'POST':
@@ -63,27 +65,32 @@ def entershifts(request):
             
     defaultshift_list = ShiftDefault.objects.all()
     cal = Calendar()
-    monthdays = cal.itermonthdates(year, month)
     weekdays = cal.itermonthdays2(year, month)
     
     monthform = MonthSelectorForm()
     
-    monthdays3 = []
+    monthdays = []
     for w in weekdays:
         if w[0] != 0:
-            monthdays3.append((datetime(year,month,w[0]), Day.objects.get(number = w[1])))
+            monthdays.append((datetime(year,month,w[0]), Day.objects.get(number = w[1])))
 
     template = loader.get_template('timereg/entershifts.html')
-    context = RequestContext(request, {'monthform' : monthform, 'year':  year, 'month' : month, 'monthdays' : monthdays3, 'defaultshift_list' : defaultshift_list})
+    context = RequestContext(request, {'monthform' : monthform, 'year':  year, 'month' : month, 'monthdays' : monthdays, 'defaultshift_list' : defaultshift_list})
     return HttpResponse(template.render(context))
 
 
 
-def showreport(request, user, year, month):
-    shift_list = Shift.objects.all().filter(worker__exact=user,start_time__year=year,start_time__month=month) # Only checks start_date.
-    shiftfragment_list = ShiftFragment.objects.all().filter(worker__exact=user,start_time__year=year,start_time__month=month) # Only checks start_date.
+def showreport(request, userpk, year, month):
+    userobj = User.objects.get(pk = userpk)
+    month_field = datetime.strptime(year +":"+ month, "%Y:%m")
+    monthly_report = MonthlyReport.objects.get(month = month_field, user = userobj)
+    
+    shift_list = monthly_report.shift_set.all()
+    shiftfragment_list = []
+    for shift in shift_list:
+        for fragment in shift.shiftfragment_set.all():
+            shiftfragment_list.append(fragment)
     oblevels = ObLevel.objects.order_by('modification')
-    userobj = User.objects.all().get(pk=user)
     ob_sums = OrderedDict.fromkeys(oblevels,(timedelta(0)))
     total_time = timedelta(0)
     for o in shiftfragment_list:
