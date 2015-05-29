@@ -40,14 +40,14 @@ class MonthlyReport(models.Model):
     user = models.ForeignKey(User)
     
     def __str__(self):
-        return self.month
+        return str(self.month)
 
     
 class Shift(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     length = models.DurationField(blank=True, editable = False  )
-    monthly_report = models.ForeignKey(MonthlyReport,default=0)
+    monthly_report = models.ForeignKey(MonthlyReport,default=1)
     
     def __str__(self):
         return  str(self.monthly_report.user) + ' - ' + str(self.start_time) + ' - ' + str(self.end_time)
@@ -66,7 +66,7 @@ class ShiftFragment(models.Model):
     length = models.DurationField(blank = True, editable = False )
     
     def __str__(self):
-        return self.main_shift.monthly_report.user + ': ' + str(self.start_time) + ' - ' + str(self.end_time)
+        return str(self.main_shift.monthly_report.user) + ': ' + str(self.start_time) + ' - ' + str(self.end_time)
     
     def save(self,* args, **kwargs):
         self.length = self.end_time - self.start_time
@@ -113,12 +113,12 @@ def splitShift(shift):
         ob_end_datetime += timedelta(seconds=1)
     
     if shift.end_time <= ob_end_datetime: # Whole shift contained in obTime - End of recursion
-        fragment = ShiftFragment(start_time = shift.start_time, end_time = shift.end_time, worker = shift.worker, oblevel = ob.oblevel, main_shift=shift)
+        fragment = ShiftFragment(start_time = shift.start_time, end_time = shift.end_time, oblevel = ob.oblevel, main_shift=shift)
         fragment.save()
         return [fragment]
     else:
         fragment_end_time = ob_end_datetime
-        fragment = ShiftFragment(start_time = shift.start_time, end_time = fragment_end_time, worker = shift.worker, oblevel = ob.oblevel, main_shift=shift)
+        fragment = ShiftFragment(start_time = shift.start_time, end_time = fragment_end_time, oblevel = ob.oblevel, main_shift=shift)
         fragment.save()
         shift.start_time= fragment_end_time
         return [fragment, splitShift(shift)]

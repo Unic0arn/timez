@@ -2,7 +2,8 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponseRedirect,HttpResponse
-from timereg.models import Shift, ShiftFragment, ObLevel, ShiftDefault, Day
+from timereg.models import Shift, ShiftFragment, ObLevel, ShiftDefault, Day,\
+    MonthlyReport
 from datetime import time, datetime,timedelta, date
 from django.template import RequestContext, loader
 from django.db.models import Avg, Sum
@@ -17,15 +18,14 @@ def index(request):
 
 
 def addreport(request):
-    
-    defaultshift_list = ShiftDefault.objects.all()
     cal = Calendar()
-    year = int(request.POST['year'])
-    month = int(request.POST['month'])
-    monthdays = cal.itermonthdates(year, month)
-    shifts = []
-    
+    year = request.POST['year']
+    month = request.POST['month']
+    monthdays = cal.itermonthdates(int(year), int(month))
     userobj = User.objects.all().get(pk=request.POST['user'])
+    month_field = datetime.strptime(year +":"+ month, "%Y:%m")
+    new_report = MonthlyReport(month = month_field, user = userobj)
+    new_report.save()
     for x in monthdays:
         try:
             start_time = request.POST[str(x.toordinal())+'-start_time']
@@ -42,7 +42,7 @@ def addreport(request):
             else:
                 new_end_time = datetime.combine(x, end)
                 
-            newshift = Shift(start_time = new_start_time, end_time = new_end_time, worker = userobj)
+            newshift = Shift(start_time = new_start_time, end_time = new_end_time,monthly_report = new_report)
             newshift.save()
         except KeyError:
             pass
