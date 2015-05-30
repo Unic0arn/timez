@@ -98,14 +98,18 @@ def showreport(request, userpk, year, month):
         ob_sums[o.oblevel] = curdelta + o.length
         total_time += o.length
     
-    
+    moneyz = {}
+    total_moneyz = 0
     for k, v in ob_sums.items():
-        ob_sums[k] = hours_minutes_seconds(v)
+        tmp_money = v.total_seconds() * float(k.modification) * 120/3600
+        ob_sums[k] = (hours_minutes_seconds(v),tmp_money)
+        total_moneyz += tmp_money
     
     template = loader.get_template('timereg/showreport.html')
     context = RequestContext(request, {'shift_list' : shift_list, 
                                        'ob_sums' : ob_sums, 
-                                       'oblevels' : oblevels, 
+                                       'oblevels' : oblevels,
+                                       'total_moneyz' : total_moneyz, 
                                        'user' : userobj, 
                                        'total_time':hours_minutes_seconds(total_time)})
     return HttpResponse(template.render(context))

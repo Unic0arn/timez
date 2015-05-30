@@ -39,22 +39,25 @@
     
     <tr>
     <th>OB Level</th>
-    <th>Modification amount</th>
     <th>Length</th>
+    <th>Modification amount</th>
+    <th>Moneyz</th>
+
     </tr>
-    {% for obl,total_time in ob_sums.items   %}
+    {% for obl, time_money in ob_sums.items   %}
     
         <tr>
         <td>{{ obl.name }}</td>
+        <td>{{time_money.0.0 }} hours, {{time_money.0.1}} minutes and {{time_money.0.2}} seconds</td>
         <td>{{ obl.modification }}</td> 
-        <td>{{total_time.0 }} hours, {{total_time.1}} minutes and {{total_time.2}} seconds</td>
+        <td>{{ time_money.1 }} kr </td>
         </tr>
     {% endfor %}
         <tr>
         <td> <b>Total</b> </td>
         <td></td>
         <td>{{total_time.0 }} hours, {{total_time.1}} minutes and {{total_time.2}} seconds</td>
-    
+        <td> {{ total_moneyz }} kr</td>
     </table>
 {% else %}
     <p>No shifts registrered.</p>
