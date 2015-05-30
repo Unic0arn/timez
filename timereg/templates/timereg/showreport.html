@@ -30,34 +30,42 @@
 {% else %}
     <p>No shifts registrered.</p>
 {% endif %}
-<br><br>
-
 
 <h2> Amount worked </h2>
 {% if ob_sums %}
     <table class="table">
     
-    <tr>
-    <th>OB Level</th>
-    <th>Length</th>
-    <th>Modification amount</th>
-    <th>Moneyz</th>
-
-    </tr>
+        <tr>
+            <th class="col-md-3">OB Level</th>
+            <th class="col-md-3">Length</th>
+            <th class="col-md-3">Modification amount</th>
+            <th class="col-md-3">Moneyz</th>
+        </tr>
     {% for obl, time_money in ob_sums.items   %}
     
         <tr>
-        <td>{{ obl.name }}</td>
-        <td>{{time_money.0.0 }} hours, {{time_money.0.1}} minutes and {{time_money.0.2}} seconds</td>
-        <td>{{ obl.modification }}</td> 
-        <td>{{ time_money.1 }} kr </td>
+            <td>{{ obl.name }}</td>
+            <td>{{time_money.0.0 }} hours, {{time_money.0.1}} minutes and {{time_money.0.2}} seconds</td>
+            <td>{{ obl.modification }}</td> 
+            <td>{{ time_money.1 }} kr </td>
         </tr>
     {% endfor %}
         <tr>
-        <td> <b>Total</b> </td>
-        <td></td>
-        <td>{{total_time.0 }} hours, {{total_time.1}} minutes and {{total_time.2}} seconds</td>
-        <td> {{ total_moneyz }} kr</td>
+            <td> <b>Total</b></td>
+            <td>{{total_time.0 }} hours, {{total_time.1}} minutes and {{total_time.2}} seconds</td>
+            <td> </td>
+            <td></td>
+        </tr>
+            
+        <tr>
+            <td></td><td></td><td></td>
+            <td> {{ total_moneyz }} kr</td>
+        </tr>
+        
+        <tr>
+            <td></td><td></td><td></td>
+            <td> {{ total_total_moneyz }} kr</td>
+        </tr>
     </table>
 {% else %}
     <p>No shifts registrered.</p>

@@ -105,11 +105,13 @@ def showreport(request, userpk, year, month):
         ob_sums[k] = (hours_minutes_seconds(v),tmp_money)
         total_moneyz += tmp_money
     
+    total_total_moneyz = total_moneyz * 1.12
     template = loader.get_template('timereg/showreport.html')
     context = RequestContext(request, {'shift_list' : shift_list, 
                                        'ob_sums' : ob_sums, 
                                        'oblevels' : oblevels,
-                                       'total_moneyz' : total_moneyz, 
+                                       'total_moneyz' : total_moneyz,
+                                       'total_total_moneyz' : total_total_moneyz, 
                                        'user' : userobj, 
                                        'total_time':hours_minutes_seconds(total_time)})
     return HttpResponse(template.render(context))
