@@ -4,7 +4,16 @@ from datetime import datetime,timedelta,time,date
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist,MultipleObjectsReturned
 from calendar import weekday
+from django.db.models import Sum
 # Create your models here.
+    
+class Day(models.Model):
+    number = models.IntegerField()
+    name = models.CharField(max_length=10)    
+    
+    def __str__(self):
+        return self.name
+    
 
 class ObLevel(models.Model):
     name = models.CharField(max_length=255)
@@ -18,7 +27,7 @@ class ObTimes(models.Model):
     name = models.CharField(max_length=255)
     start_time = models.TimeField()
     end_time = models.TimeField()
-    day = models.IntegerField()
+    days = models.ManyToManyField(Day, blank = True)
     oblevel = models.ForeignKey(ObLevel)
     
     def __str__(self):
@@ -59,7 +68,17 @@ class Shift(models.Model):
         self.length = self.end_time - self.start_time
         super(Shift, self).save(*args, **kwargs)
         splitShift(self)
-      
+        
+    def getObTimes(self):
+        fragments = self.shiftfragment_set.all()
+        obllevels = ObLevel.objects.all()
+        lengths = {}
+        for obl in obllevels:
+            sum = fragments.filter(oblevel = obl).aggregate(Sum('length'))
+            print(sum['length__sum'])
+            lengths[obl] = sum['length__sum']
+            
+        return lengths    
     
 class ShiftFragment(models.Model):
     start_time = models.DateTimeField()
@@ -75,21 +94,14 @@ class ShiftFragment(models.Model):
         self.length = self.end_time - self.start_time
         super(ShiftFragment, self).save()
     
-    
-class Day(models.Model):
-    number = models.IntegerField()
-    name = models.CharField(max_length=10)    
-    
-    def __str__(self):
-        return self.name
-    
+
     # Needs to be renamed -.-'
 class ShiftDefault(models.Model): # TODO Needs system to determine what kind of shift is possible.
     name = models.CharField(max_length=255)
     start_time = models.TimeField()
     end_time   = models.TimeField()
     length = models.DurationField(blank = True, editable = False)
-    possible_days = models.ManyToManyField(Day)
+    possible_days = models.ManyToManyField(Day,blank = True)
     def __str__(self):
         return self.name+ ': ' + str(self.start_time) + ' - ' + str(self.length)
     
@@ -107,7 +119,7 @@ def splitShift(shift):
         
     start_date = shift.start_time.date()
     ob = findObTime(shift.start_time)
-    if hasattr(ob,'day'): # Regular OB time
+    if hasattr(ob,'days'): # Regular OB time
         ob_end_datetime = datetime.combine(start_date,ob.end_time)
     else: # We found a super weekend
         ob_end_datetime = min(shift.end_time,ob.end_time)
@@ -138,10 +150,8 @@ def findObTime(start_date):
         print("Matched no special day or multiple")
     
     start_time = start_date.time()
-    weekday = start_date.weekday()
-    if weekday < 5:
-        weekday = -1
-    return ObTimes.objects.get(day__exact=weekday, start_time__lte=start_time, end_time__gt=start_time) # Could be abstraced to using a range
+    weekday = Day.objects.get(number=start_date.weekday())
+    return ObTimes.objects.get(days=weekday, start_time__lte=start_time, end_time__gt=start_time) # Could be abstraced to using a range
     
     
 

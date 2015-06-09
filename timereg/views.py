@@ -12,8 +12,12 @@ from django.contrib.auth.models import User
 from calendar import monthrange,Calendar
 from django.core.urlresolvers import reverse
 from timereg.forms import MonthSelectorForm
+from django.db.models.fields import Empty
 def index(request):
-    
+    template = loader.get_template('timereg/index.html')
+    context = RequestContext(request)
+    return HttpResponse(template.render(context))
+
     return HttpResponse("Hello, world. You're at the index page.")
 
 
@@ -30,12 +34,11 @@ def addreport(request):
         try:
             start_time = request.POST[str(x.toordinal())+'-start_time']
             end_time = request.POST[str(x.toordinal())+'-end_time']
-            if start_time is '' or end_time is '':
-                continue 
-            
-            start = datetime.strptime(start_time, "%H:%M").time()
-            end = datetime.strptime(end_time, "%H:%M").time()
-            
+            try:
+                start = datetime.strptime(start_time, "%H:%M").time()
+                end = datetime.strptime(end_time, "%H:%M").time()
+            except ValueError:
+                continue
             new_start_time = datetime.combine(x,start)
             if end_time < start_time: #Overnight
                 new_end_time = datetime.combine(x + timedelta(days=1), end)
@@ -105,9 +108,12 @@ def showreport(request, userpk, year, month):
         ob_sums[k] = (hours_minutes_seconds(v),tmp_money)
         total_moneyz += tmp_money
     
+    
+    new_shift_list = [(shift, shift.getObTimes()) for shift in shift_list]
+    print (new_shift_list)
     total_total_moneyz = total_moneyz * 1.12
     template = loader.get_template('timereg/showreport.html')
-    context = RequestContext(request, {'shift_list' : shift_list, 
+    context = RequestContext(request, {'shift_list' : new_shift_list, 
                                        'ob_sums' : ob_sums, 
                                        'oblevels' : oblevels,
                                        'total_moneyz' : total_moneyz,
