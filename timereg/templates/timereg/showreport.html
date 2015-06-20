@@ -17,14 +17,24 @@
     </tr>
     {% for shift, ob_times in shift_list %}
         <tr>
-        <td>{{ shift.start_time }}</td>
-        <td>{{ shift.end_time }}</td>
-        <td>{{ shift.length }} hrs </td>
+        <td class="col-md-3">{{ shift.start_time }}</td>
+        <td class="col-md-3">{{ shift.end_time }}</td>
+        <td class="col-md-3">{{ shift.length }} hrs </td>
         {% for obl, time in ob_times.items %}
             <th> {{ time }}</th>
         {% endfor %}
         </tr>
     {% endfor %}
+    <tr>
+        <td colspan="2">Total</td>
+        
+        <td>{{total_time.0 }} hours, {{total_time.1}} minutes and {{total_time.2}} seconds</td>
+        {% for obl, time_money in ob_sums.items   %}
+        <td>{{time_money.0.0 }} hours   </td>
+            
+        
+        {% endfor %}
+    </tr>
     </table>
 {% else %}
     <p>No shifts registrered.</p>

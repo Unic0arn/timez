@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 from calendar import monthrange,Calendar
 from django.core.urlresolvers import reverse
 from timereg.forms import MonthSelectorForm
-from django.db.models.fields import Empty
+
 def index(request):
     template = loader.get_template('timereg/index.html')
     context = RequestContext(request)
