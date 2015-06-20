@@ -1,8 +1,8 @@
-{% extends 'timereg/base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Show Report{% endblock %}
 
-{% block body_block %}
+{% block content %}
 <h1> Monthly report for {{ user.username }} </h1>
 <h2> Shifts </h2>
 {% if shift_list %}

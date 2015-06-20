@@ -1,9 +1,9 @@
-{% extends 'timereg/base.html' %}
+{% extends 'base.html' %}
 
 
 {% block title %}Enter Shifts{% endblock %}
 
-{% block body_block %}
+{% block content %}
 <script>
 function autoFill(day, start_time, end_time) {
     document.getElementById(day+"-start_time").value = start_time
