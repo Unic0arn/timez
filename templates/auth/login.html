@@ -1,0 +1,19 @@
+{% extends 'timereg/base.html' %}
+
+{% block title %}Login block {% endblock %}
+
+{% block body_block %}
+
+        <h1>Please login to timez</h1>
+
+        <form id="login_form" method="post" action="/timereg/login/">
+            {% csrf_token %}
+            Username: <input type="text" name="username" value="" size="50" />
+            <br />
+            Password: <input type="password" name="password" value="" size="50" />
+            <br />
+
+            <input type="submit" value="submit" />
+        </form>
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}List reports{% endblock %}
+
+{% block content %}
+    {% if reports %}
+        {% for r in reports %}
+           <a href="/timereg/showreport/{{r.month.year}}/{{r.month.month}}"> {{r.month}}</a><br>
+        
+        
+        
+        {% endfor %}
+    
+    
+    {% endif %}
+{% endblock %}
