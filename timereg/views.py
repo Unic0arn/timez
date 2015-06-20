@@ -6,21 +6,22 @@ from timereg.models import Shift, ShiftFragment, ObLevel, ShiftDefault, Day,\
     MonthlyReport
 from datetime import time, datetime,timedelta, date
 from django.template import RequestContext, loader
-from django.db.models import Avg, Sum
 from collections import OrderedDict
 from django.contrib.auth.models import User
 from calendar import monthrange,Calendar
 from django.core.urlresolvers import reverse
 from timereg.forms import MonthSelectorForm
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import logout
 
+@login_required
 def index(request):
     template = loader.get_template('timereg/index.html')
     context = RequestContext(request)
     return HttpResponse(template.render(context))
 
-    return HttpResponse("Hello, world. You're at the index page.")
-
-
+@login_required
 def addreport(request):
     cal = Calendar()
     year = request.POST['year']
@@ -54,6 +55,7 @@ def addreport(request):
     
     return HttpResponseRedirect(reverse('timereg:showreport', args=(userobj.pk, year, month)))
 
+@login_required
 def entershifts(request):
     if request.method == 'POST':
         print(request.POST)
@@ -82,7 +84,7 @@ def entershifts(request):
     return HttpResponse(template.render(context))
 
 
-
+@login_required
 def showreport(request, userpk, year, month):
     userobj = User.objects.get(pk = userpk)
     month_field = datetime.strptime(year +":"+ month, "%Y:%m")
@@ -122,8 +124,31 @@ def showreport(request, userpk, year, month):
                                        'total_time':hours_minutes_seconds(total_time)})
     return HttpResponse(template.render(context))
 
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
-    
+        user = authenticate(username=username, password=password)
+        if user:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect('/timereg/')
+            else:
+                return HttpResponse("Your Rango account is disabled.")
+        else:
+            print "Invalid login details: {0}, {1}".format(username, password)
+            return HttpResponse("Invalid login details supplied.")
+
+    else:
+        return render(request, 'auth/login.html', {})
+
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/timereg/')
+
 def hours_minutes_seconds(td):
     seconds = td.total_seconds()
     return (int(seconds//(60*60)), int((seconds%3600)/60), int(seconds%60)) 
