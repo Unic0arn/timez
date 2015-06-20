@@ -23,7 +23,6 @@ function autoFill(day, start_time, end_time) {
 
 
 <form action="{% url 'timereg:addreport' %}" method="post">
-    <input type="hidden" name="user" value="1">
     <input name="month" value="{{month}}" type="hidden">
     <input name="year" value="{{year}}" type="hidden">
     {% csrf_token %}

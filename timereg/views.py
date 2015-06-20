@@ -27,7 +27,7 @@ def addreport(request):
     year = request.POST['year']
     month = request.POST['month']
     monthdays = cal.itermonthdates(int(year), int(month))
-    userobj = User.objects.all().get(pk=request.POST['user'])
+    userobj = request.user
     month_field = datetime.strptime(year +":"+ month, "%Y:%m")
     new_report = MonthlyReport(month = month_field, user = userobj)
     new_report.save()
@@ -53,7 +53,7 @@ def addreport(request):
     
     
     
-    return HttpResponseRedirect(reverse('timereg:showreport', args=(userobj.pk, year, month)))
+    return HttpResponseRedirect(reverse('timereg:showreport', args=(year, month)))
 
 @login_required
 def entershifts(request):
@@ -85,8 +85,8 @@ def entershifts(request):
 
 
 @login_required
-def showreport(request, userpk, year, month):
-    userobj = User.objects.get(pk = userpk)
+def showreport(request, year, month):
+    userobj = request.user
     month_field = datetime.strptime(year +":"+ month, "%Y:%m")
     monthly_report = MonthlyReport.objects.get(month = month_field, user = userobj)
     
@@ -122,6 +122,15 @@ def showreport(request, userpk, year, month):
                                        'total_total_moneyz' : total_total_moneyz, 
                                        'user' : userobj, 
                                        'total_time':hours_minutes_seconds(total_time)})
+    return HttpResponse(template.render(context))
+
+@login_required
+def list_reports(request):
+    
+    userobj = request.user
+    reports = userobj.monthlyreport_set.all()
+    template = loader.get_template('timereg/listreports.html')
+    context = RequestContext(request, {'reports' : reports})
     return HttpResponse(template.render(context))
 
 def user_login(request):
