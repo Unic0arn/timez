@@ -47,8 +47,8 @@ function autoFill(day, start_time, end_time) {
                     </td>
                     {% endfor %}
                     
-                    <td> <input id="{{day.toordinal}}-start_time" class="{{day.toordinal}}" type="time" name="{{day.toordinal}}-start_time"/></td>
-                    <td> <input id="{{day.toordinal}}-end_time" class="{{day.toordinal}}" type="time" name="{{day.toordinal}}-end_time"/></td>
+                    <td> <input id="{{day.toordinal}}-start_time" class="{{day.toordinal}} timeinput" type="time" name="{{day.toordinal}}-start_time"/></td>
+                    <td> <input id="{{day.toordinal}}-end_time" class="{{day.toordinal}} timeinput" type="time" name="{{day.toordinal}}-end_time"/></td>
 
             </tr>
     {% endfor %}
