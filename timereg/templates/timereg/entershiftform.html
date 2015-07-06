@@ -1,6 +1,6 @@
 <form action="{% url 'timereg:addreport' %}" method="post">
     <h1> Enter your shifts for month {{monthname}} </h1>
-
+    <input type="submit">
     <input name="month" value="{{month}}" type="hidden">
     <input name="year" value="{{year}}" type="hidden">
     {% csrf_token %}
@@ -33,6 +33,6 @@
             </tr>
     {% endfor %}
     </table>
-    
+    <input type="submit">
         
 </form>

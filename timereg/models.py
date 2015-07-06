@@ -121,11 +121,17 @@ def splitShift(shift):
     ob = findObTime(shift.start_time)
     if hasattr(ob,'days'): # Regular OB time
         ob_end_datetime = datetime.combine(start_date,ob.end_time)
+        
+        if ob.end_time == time(23,59,59):
+            ob_end_datetime += timedelta(seconds=1)
+    
     else: # We found a super weekend
         ob_end_datetime = min(shift.end_time,ob.end_time)
         
-    if ob.end_time == time(23,59,59):
-        ob_end_datetime += timedelta(seconds=1)
+        if ob.end_time.time() == time(23,59,59):
+            ob_end_datetime += timedelta(seconds=1)
+    
+    
     
     if shift.end_time <= ob_end_datetime: # Whole shift contained in obTime - End of recursion
         fragment = ShiftFragment(start_time = shift.start_time, end_time = shift.end_time, oblevel = ob.oblevel, main_shift=shift)
