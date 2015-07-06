@@ -1,0 +1,38 @@
+<form action="{% url 'timereg:addreport' %}" method="post">
+    <h1> Enter your shifts for month {{monthname}} </h1>
+
+    <input name="month" value="{{month}}" type="hidden">
+    <input name="year" value="{{year}}" type="hidden">
+    {% csrf_token %}
+    <table class="table">
+    <tr>
+    <th> Shift starting on day: </th>
+    {% for defshift in defaultshift_list %}
+        <th>{{defshift.name}} <br>{{defshift.start_time|date:"H:i"}} - {{defshift.end_time|date:"H:i"}}</th>
+    {% endfor %}
+    <th> Start time </th>
+    <th> End time </th> 
+    </tr>
+    
+    {% for day,weekday in monthdays %}
+            
+            <tr>
+                <td> {{ day|date:"D d M Y" }} </td>
+                    
+                    {% for defshift in defaultshift_list %}
+                    <td align="center">
+                        {% if weekday in defshift.possible_days.all %}
+                          <input type="button" onclick="autoFill('{{day.toordinal}}','{{defshift.start_time|date:"H:i"}}', '{{defshift.end_time|date:"H:i"}}')" value="Fill"/>
+                        {% endif %}
+                    </td>
+                    {% endfor %}
+                    
+                    <td> <input id="{{day.toordinal}}-start_time" class="{{day.toordinal}} timeinput" type="time" name="{{day.toordinal}}-start_time"/></td>
+                    <td> <input id="{{day.toordinal}}-end_time" class="{{day.toordinal}} timeinput" type="time" name="{{day.toordinal}}-end_time"/></td>
+
+            </tr>
+    {% endfor %}
+    </table>
+    
+        
+</form>

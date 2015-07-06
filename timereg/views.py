@@ -2,13 +2,12 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponseRedirect,HttpResponse
-from timereg.models import Shift, ShiftFragment, ObLevel, ShiftDefault, Day,\
-    MonthlyReport
-from datetime import time, datetime,timedelta, date
+from timereg.models import Shift,ObLevel, ShiftDefault, Day, MonthlyReport
+from datetime import datetime,timedelta, date
 from django.template import RequestContext, loader
 from collections import OrderedDict
-from django.contrib.auth.models import User
-from calendar import monthrange,Calendar
+from calendar import Calendar
+import calendar
 from django.core.urlresolvers import reverse
 from timereg.forms import MonthSelectorForm
 from django.contrib.auth import authenticate, login
@@ -57,32 +56,41 @@ def addreport(request):
 
 @login_required
 def entershifts(request):
+    
+    template = loader.get_template('timereg/entershifts.html')
+    context = RequestContext(request, {})
+    return HttpResponse(template.render(context))
+
+
+@login_required
+def getmonthentry(request):
     if request.method == 'POST':
         print(request.POST)
     try:
-        newdate = datetime.strptime(request.POST['month'],"%Y-%m-%d")
+        month = int(request.GET['month'])
+        year = int(request.GET['year'])
+    except KeyError:
+        newdate = date.today()
         year = newdate.year
         month = newdate.month
-    except KeyError:
-        today = date.today()
-        year = today.year
-        month = today.month
-            
+    
     defaultshift_list = ShiftDefault.objects.all()
     cal = Calendar()
     weekdays = cal.itermonthdays2(year, month)
-    
+    monthname = calendar.month_name[month]
     monthform = MonthSelectorForm()
     
     monthdays = []
     for w in weekdays:
         if w[0] != 0:
             monthdays.append((datetime(year,month,w[0]), Day.objects.get(number = w[1])))
-
-    template = loader.get_template('timereg/entershifts.html')
-    context = RequestContext(request, {'monthform' : monthform, 'year':  year, 'month' : month, 'monthdays' : monthdays, 'defaultshift_list' : defaultshift_list})
+        
+    context = RequestContext(request, {'monthform' : monthform, 'year':  year, 'month' : month, 'monthname' : monthname, 'monthdays' : monthdays, 'defaultshift_list' : defaultshift_list})
+    
+    
+    template = loader.get_template('timereg/entershiftform.html')
     return HttpResponse(template.render(context))
-
+    
 
 @login_required
 def showreport(request, year, month):

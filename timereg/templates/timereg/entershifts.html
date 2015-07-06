@@ -4,56 +4,40 @@
 {% block title %}Enter Shifts{% endblock %}
 
 {% block content %}
-<script>
+<script type="text/javascript">
+
 function autoFill(day, start_time, end_time) {
     document.getElementById(day+"-start_time").value = start_time
     document.getElementById(day+"-end_time").value = end_time
 }
+
+
+
+$(function() {
+    $('.date-picker').datepicker( {
+        changeMonth: true,
+        changeYear: true,
+        showButtonPanel: true,
+        gotoCurrent: true,
+        defaultDate: null,
+        dateFormat: 'MM yy',
+        onChangeMonthYear: function(year, month, inst) { 
+            console.log(year + " " + month)
+            $(this).datepicker('setDate', new Date(year, month-1, 1));
+            $.get('/timereg/getmonthentry/', {month: month, year:year}, function(data){
+               $('#entershiftform').html(data);
+               });
+        }
+    });
+    $('.date-picker').datepicker('setDate', new Date())
+});
 </script>
-<h1> Enter your shifts for month {{month}} </h1>
-
-
-<form action="{% url 'timereg:entershifts' %}" method="post">
-    
-    {% csrf_token %}
-
-    <input name="month" type="date">
-    <input type="submit" value="Select month" />
-</form>
-
-
-<form action="{% url 'timereg:addreport' %}" method="post">
-    <input name="month" value="{{month}}" type="hidden">
-    <input name="year" value="{{year}}" type="hidden">
-    {% csrf_token %}
-    <table class="table">
-    <tr>
-    <th> Shift starting on day: </th>
-    {% for defshift in defaultshift_list %}
-        <th>{{defshift.name}} <br>{{defshift.start_time|date:"H:i"}} - {{defshift.end_time|date:"H:i"}}</th>
-    {% endfor %}
-    </tr>
-    
-    {% for day,weekday in monthdays %}
-            
-            <tr>
-                <td> {{ day|date:"D d M Y" }} </td>
-                    
-                    {% for defshift in defaultshift_list %}
-                    <td align="center">
-                        {% if weekday in defshift.possible_days.all %}
-                          <input type="button" onclick="autoFill('{{day.toordinal}}','{{defshift.start_time|date:"H:i"}}', '{{defshift.end_time|date:"H:i"}}')" value="Fill"/>
-                        {% endif %}
-                    </td>
-                    {% endfor %}
-                    
-                    <td> <input id="{{day.toordinal}}-start_time" class="{{day.toordinal}} timeinput" type="time" name="{{day.toordinal}}-start_time"/></td>
-                    <td> <input id="{{day.toordinal}}-end_time" class="{{day.toordinal}} timeinput" type="time" name="{{day.toordinal}}-end_time"/></td>
-
-            </tr>
-    {% endfor %}
-    </table>
-    
-    <input type="submit" value="Skicka" />
-</form>
+<style>
+.ui-datepicker-calendar {
+    display: none;
+    }
+</style>
+<input name="month" class="date-picker">
+<div id="entershiftform">
+</div>
 {% endblock %}
