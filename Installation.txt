@@ -1,0 +1,22 @@
+
+
+
+Konfa postgres:
+
+sudo -u postgres psql -c "create user timez with password 'timez';"
+sudo -u postgres psql -c "create database timez;"
+sudo -u postgres psql -c "grant all privileges on database timez to timez;"
+
+Konfa django
+pip install -r requirments
+
+
+python manage.py migrate
+python manage.py createsuperuser --username=admin --email=admin@admin.se
+
+
+
+
+
+Problem med port.
+	Kolla vagrantfile för vilken port man öppnat. (Guest = webservern, Host = din maskin som du har webläsaren på). Sen viktigt att säga att köra runserver med 0.0.0.0 annars lyssnar den bara från localhost.

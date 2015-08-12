@@ -1,7 +1,7 @@
 import os
 from calendar import weekday
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'timez.settings')
-
+from django.contrib.auth.models import User
 import django
 django.setup()
 
@@ -9,6 +9,13 @@ from timereg.models import Day, ObLevel, ObTimes, ObSpecials, ShiftDefault
 from datetime import time,datetime
 
 def populate():
+    u = User(username='admin')
+    u.set_password('admin')
+    u.is_superuser = True
+    u.is_staff = True
+    u.save()
+
+
     mon = add_Day(0, 'Monday')
     tue = add_Day(1, 'Tuesday')
     wed = add_Day(2, 'Wednesday')
