@@ -13,6 +13,8 @@ from timereg.forms import MonthSelectorForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import logout
+import reportlab
+
 
 @login_required
 def index(request):
@@ -118,7 +120,6 @@ def showreport(request, year, month):
         ob_sums[k] = (hours_minutes_seconds(v),tmp_money)
         total_moneyz += tmp_money
     
-    
     new_shift_list = [(shift, shift.getObTimes()) for shift in shift_list]
     print (new_shift_list)
     total_total_moneyz = total_moneyz * 1.12
@@ -139,7 +140,13 @@ def list_reports(request):
     reports = userobj.monthlyreport_set.all()
     template = loader.get_template('timereg/listreports.html')
     context = RequestContext(request, {'reports' : reports})
+    
+    
+    
     return HttpResponse(template.render(context))
+
+    
+
 
 def user_login(request):
     if request.method == 'POST':
