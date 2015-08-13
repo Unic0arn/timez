@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponseRedirect,HttpResponse
+from reportlab.pdfgen import canvas
 from timereg.models import Shift,ObLevel, ShiftDefault, Day, MonthlyReport
 from datetime import datetime,timedelta, date
 from django.template import RequestContext, loader
@@ -13,7 +14,7 @@ from timereg.forms import MonthSelectorForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import logout
-import reportlab
+
 
 
 @login_required
@@ -93,6 +94,12 @@ def getmonthentry(request):
     template = loader.get_template('timereg/entershiftform.html')
     return HttpResponse(template.render(context))
     
+
+@login_required
+def downloadreport(rid):
+    c = canvas.Canvas("hello.pdf")
+    c.drawString(100,750,"Welcome to Reportlab!")
+    c.save()
 
 @login_required
 def showreport(request, year, month):
