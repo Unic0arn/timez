@@ -20,3 +20,36 @@ python manage.py createsuperuser --username=admin --email=admin@admin.se
 
 Problem med port.
 	Kolla vagrantfile för vilken port man öppnat. (Guest = webservern, Host = din maskin som du har webläsaren på). Sen viktigt att säga att köra runserver med 0.0.0.0 annars lyssnar den bara från localhost.
+
+
+
+Virtualenv.
+	pip install virtualenv
+	pip install virtualenvwrapper
+	echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
+	mkvirtualenv ENV (ex timezvirtenv)
+
+	Öppna projekt i pycharm, välj project interpreter till python2.7 i ~/.virtualenvs/timezvirtenv/bin/
+	Sätt requierments fil under Settings -> Tools -> Python Integrated Tools
+
+
+	Den kommer då installera rätt paket till virtualenven
+
+
+	Kör i terminal (utanför pycharm)
+	workon timezvirtualenv
+
+
+
+(
+	Skapa sen .pycharmrc i project dir
+
+	"
+	source ~/.bashrc
+	source ~/.virtualenvs/timezvirtualenv/bin/activate
+	"
+
+	och lägg till:
+	/bin/bash --rcfile  .pycharmrc
+
+) // Får ej detta att fungera...
