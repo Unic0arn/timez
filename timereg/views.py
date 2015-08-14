@@ -14,7 +14,7 @@ from timereg.forms import MonthSelectorForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import logout
-
+from timereg.report import generate_report
 
 
 @login_required
@@ -96,17 +96,22 @@ def getmonthentry(request):
     
 
 @login_required
-def downloadreport(rid):
-    c = canvas.Canvas("hello.pdf")
-    c.drawString(100,750,"Welcome to Reportlab!")
-    c.save()
+def downloadreport(request, rid):
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="somefilename.pdf"'
+    report = MonthlyReport.objects.get(pk = rid)
+    generate_report(response, rid)
+
+    return response
+
 
 @login_required
 def showreport(request, year, month):
     userobj = request.user
     month_field = datetime.strptime(year +":"+ month, "%Y:%m")
     monthly_report = MonthlyReport.objects.get(month = month_field, user = userobj)
-    
+
+
     shift_list = monthly_report.shift_set.all()
     shiftfragment_list = []
     for shift in shift_list:
