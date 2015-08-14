@@ -17,6 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
+    url(r'^$', include('timereg.urls', namespace="mainindex")),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^timereg/', include('timereg.urls', namespace="timereg")),
     url(r'^accounts/', include('registration.backends.simple.urls')),
