@@ -28,7 +28,7 @@ def addreport(request):
     monthdays = cal.itermonthdates(int(year), int(month))
     userobj = request.user
     month_field = datetime.strptime(year +":"+ month, "%Y:%m")
-    new_report = MonthlyReport(month = month_field, user = userobj)
+    new_report = MonthlyReport.objects.get_or_create(month = month_field, user = userobj)[0]
     new_report.save()
     for x in monthdays:
         try:
@@ -41,7 +41,23 @@ def addreport(request):
                 continue
             new_start_time = datetime.combine(x,start)
             if end_time < start_time: #Overnight
-                new_end_time = datetime.combine(x + timedelta(days=1), end)
+
+                end_date = x + timedelta(days=1)
+                if end_date.month != x.month: #Shift at end of the month
+
+                    midnight = datetime.strptime('00:00', "%H:%M").time()
+                    new_end_time = datetime.combine(end_date, midnight)
+                    newshift = Shift(start_time = new_start_time, end_time = new_end_time,monthly_report = new_report)
+                    newshift.save()
+
+                    new_start_time = new_end_time
+                    new_end_time = datetime.combine(end_date, end)
+                    next_report = MonthlyReport.objects.get_or_create(month = end_date.replace(day = 1), user = userobj)[0] # Might be unnesecary to replace the day to one, but i'm considering really long shifts...
+                    newshift2 = Shift(start_time = new_start_time, end_time = new_end_time, monthly_report = next_report)
+                    newshift2.save()
+                    continue
+
+                new_end_time = datetime.combine(end_date, end)
             else:
                 new_end_time = datetime.combine(x, end)
                 
