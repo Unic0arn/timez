@@ -43,7 +43,7 @@ def addreport(request):
             if end_time < start_time: #Overnight
 
                 end_date = x + timedelta(days=1)
-                if end_date.month != x.month: #Shift at end of the month
+                if end_date.month != x.month: #Shift at end of the month. Split shift into two shifts. Causes problem if you want to edit a shift stretching past month.
 
                     midnight = datetime.strptime('00:00', "%H:%M").time()
                     new_end_time = datetime.combine(end_date, midnight)

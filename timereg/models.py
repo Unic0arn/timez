@@ -65,10 +65,14 @@ class Shift(models.Model):
         return  str(self.monthly_report.user) + ' - ' + str(self.start_time) + ' - ' + str(self.end_time)
       
     def save(self,* args, **kwargs):
+        if self.pk is not None: # Editing an old shift
+            oldfragments = self.shiftfragment_set.all()
+            oldfragments.delete()
+
         self.length = self.end_time - self.start_time
         super(Shift, self).save(*args, **kwargs)
         splitShift(self)
-        
+
     def getObTimes(self):
         fragments = self.shiftfragment_set.all()
         obllevels = ObLevel.objects.all()
