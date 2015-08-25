@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.forms.models import modelformset_factory
 from django.shortcuts import render
 
@@ -22,15 +23,25 @@ def index(request):
     return HttpResponse(template.render(context))
 
 @login_required
-def addreport(request):
+def savereport(request):
     cal = Calendar()
     year = request.POST['year']
     month = request.POST['month']
-    monthdays = cal.itermonthdates(int(year), int(month))
+
+
+    monthdate = date(year,month,1)
     userobj = request.user
-    month_field = datetime.strptime(year +":"+ month, "%Y:%m")
-    new_report = MonthlyReport.objects.get_or_create(month = month_field, user = userobj)[0]
-    new_report.save()
+    try:
+        report = MonthlyReport.objects.get(user=userobj,month=monthdate)
+        newreport = False
+    except ObjectDoesNotExist:
+        month_field = datetime.strptime(year +":"+ month, "%Y:%m")
+        report = MonthlyReport.objects.get_or_create(month = month_field, user = userobj)[0]
+        newreport = True
+        report.save()
+
+
+    monthdays = cal.itermonthdates(int(year), int(month))
     for x in monthdays:
         try:
             start_time = request.POST[str(x.toordinal())+'-start_time']
@@ -73,14 +84,9 @@ def addreport(request):
 
 @login_required
 def entershifts(request):
-
-
     template = loader.get_template('timereg/entershifts.html')
-    
-
     context = RequestContext(request, {})
     return HttpResponse(template.render(context))
-
 
 @login_required
 def getmonthentry(request):
@@ -99,15 +105,15 @@ def getmonthentry(request):
     weekdays = cal.itermonthdays2(year, month)
     monthname = calendar.month_name[month]
 
-
-
-    ShiftFormSet = modelformset_factory(Shift, fields=('start_time','end_time'),max_num=31,extra = 31)
-    formset = ShiftFormSet()
-
-    datefield = date(2015, 8 , 15)
-    form = ShiftForm()
-    month_field = datetime.strptime('2015-05-23', "%Y-%m-%d")
-
+    monthdate = date(year,month,1)
+    userobj = request.user
+    try:
+        prevreport = MonthlyReport.objects.get(user=userobj,month=monthdate)
+        shifts = prevreport.shift_set
+        newreport = False
+    except ObjectDoesNotExist:
+        shifts = Shift.objects.none()
+        newreport = True
 
 
     monthdays = []
@@ -115,7 +121,7 @@ def getmonthentry(request):
         if w[0] != 0:
             monthdays.append((datetime(year,month,w[0]), Day.objects.get(number = w[1])))
 
-    context = RequestContext(request, {'year':  year, 'month' : month, 'monthname' : monthname, 'monthdays' : monthdays, 'defaultshift_list' : defaultshift_list, 'formset': formset})
+    context = RequestContext(request, {'year':  year, 'month' : month, 'monthname' : monthname, 'monthdays' : monthdays, 'defaultshift_list' : defaultshift_list, 'newreport' : newreport, 'shifts' : shifts})
 
     template = loader.get_template('timereg/entershiftform.html')
     return HttpResponse(template.render(context))

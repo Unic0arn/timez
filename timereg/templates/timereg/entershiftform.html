@@ -1,7 +1,14 @@
+{% if not newreport %}
+    <div> Editing </div>
 
+    {% for s in shifts.all %}
+        <script>
+            autoFill('{{s.start_date.toordinal}}','{{s.start_time|date:"H:i"}}','{{s.end_time|date:"H:i"}}')
+        </script>
+    {% endfor %}
+{% endif %}
 
-
-<form action="{% url 'timereg:addreport' %}" method="post">
+<form action="{% url 'timereg:savereport' %}" method="post">
 
 
     <h1> Enter your shifts for month {{monthname}} </h1>
@@ -41,11 +48,3 @@
     <input type="submit">
         
 </form>
-
-{% for f in formset %}
-        {{ f }}
-        {{ forloop.counter0 }}
-
-        <br>
-
-    {% endfor %}
