@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Edit shifts{% endblock %}
+
+{% block content %}
+<script type="text/javascript">
+
+function autoFill(day, start_time, end_time) {
+    document.getElementById(day+"-start_time").value = start_time
+    document.getElementById(day+"-end_time").value = end_time
+}
+</script>
+<style>
+.ui-datepicker-calendar {
+    display: none;
+    }
+</style>
+<input name="month" class="date-picker">
+<div id="entershiftform">
+</div>
+{% endblock %}

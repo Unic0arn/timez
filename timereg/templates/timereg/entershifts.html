@@ -21,7 +21,7 @@ $(function() {
         gotoCurrent: true,
         defaultDate: null,
         dateFormat: 'MM yy',
-        onChangeMonthYear: function(year, month, inst) { 
+        onChangeMonthYear: function(year, month, inst) {
             console.log(year + " " + month)
             $(this).datepicker('setDate', new Date(year, month-1, 1));
             $.get('/timereg/getmonthentry/', {month: month, year:year}, function(data){
@@ -38,6 +38,9 @@ $(function() {
     }
 </style>
 <input name="month" class="date-picker">
+    <br>
+
+    <br>
 <div id="entershiftform">
 </div>
 {% endblock %}

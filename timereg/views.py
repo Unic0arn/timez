@@ -1,7 +1,9 @@
+from django.forms.models import modelformset_factory
 from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponseRedirect,HttpResponse
+from timereg.forms import ShiftForm
 from timereg.models import Shift,ObLevel, ShiftDefault, Day, MonthlyReport
 from datetime import datetime,timedelta, date
 from django.template import RequestContext, loader
@@ -9,7 +11,6 @@ from collections import OrderedDict
 from calendar import Calendar
 import calendar
 from django.core.urlresolvers import reverse
-from timereg.forms import MonthSelectorForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import logout
@@ -47,13 +48,13 @@ def addreport(request):
 
                     midnight = datetime.strptime('00:00', "%H:%M").time()
                     new_end_time = datetime.combine(end_date, midnight)
-                    newshift = Shift(start_time = new_start_time, end_time = new_end_time,monthly_report = new_report)
+                    newshift = Shift(start_date = new_start_time.date(), start_time = new_start_time, end_time = new_end_time,monthly_report = new_report)
                     newshift.save()
 
                     new_start_time = new_end_time
                     new_end_time = datetime.combine(end_date, end)
                     next_report = MonthlyReport.objects.get_or_create(month = end_date.replace(day = 1), user = userobj)[0] # Might be unnesecary to replace the day to one, but i'm considering really long shifts...
-                    newshift2 = Shift(start_time = new_start_time, end_time = new_end_time, monthly_report = next_report)
+                    newshift2 = Shift(start_date = new_start_time.date(), start_time = new_start_time, end_time = new_end_time, monthly_report = next_report)
                     newshift2.save()
                     continue
 
@@ -61,7 +62,7 @@ def addreport(request):
             else:
                 new_end_time = datetime.combine(x, end)
                 
-            newshift = Shift(start_time = new_start_time, end_time = new_end_time,monthly_report = new_report)
+            newshift = Shift(start_date = new_start_time.date(), start_time = new_start_time, end_time = new_end_time,monthly_report = new_report)
             newshift.save()
         except KeyError:
             pass
@@ -72,8 +73,11 @@ def addreport(request):
 
 @login_required
 def entershifts(request):
-    
+
+
     template = loader.get_template('timereg/entershifts.html')
+    
+
     context = RequestContext(request, {})
     return HttpResponse(template.render(context))
 
@@ -94,16 +98,25 @@ def getmonthentry(request):
     cal = Calendar()
     weekdays = cal.itermonthdays2(year, month)
     monthname = calendar.month_name[month]
-    monthform = MonthSelectorForm()
-    
+
+
+
+    ShiftFormSet = modelformset_factory(Shift, fields=('start_time','end_time'),max_num=31,extra = 31)
+    formset = ShiftFormSet()
+
+    datefield = date(2015, 8 , 15)
+    form = ShiftForm()
+    month_field = datetime.strptime('2015-05-23', "%Y-%m-%d")
+
+
+
     monthdays = []
     for w in weekdays:
         if w[0] != 0:
             monthdays.append((datetime(year,month,w[0]), Day.objects.get(number = w[1])))
-        
-    context = RequestContext(request, {'monthform' : monthform, 'year':  year, 'month' : month, 'monthname' : monthname, 'monthdays' : monthdays, 'defaultshift_list' : defaultshift_list})
-    
-    
+
+    context = RequestContext(request, {'year':  year, 'month' : month, 'monthname' : monthname, 'monthdays' : monthdays, 'defaultshift_list' : defaultshift_list, 'formset': formset})
+
     template = loader.get_template('timereg/entershiftform.html')
     return HttpResponse(template.render(context))
     

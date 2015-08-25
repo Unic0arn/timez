@@ -1,4 +1,9 @@
+
+
+
 <form action="{% url 'timereg:addreport' %}" method="post">
+
+
     <h1> Enter your shifts for month {{monthname}} </h1>
     <input type="submit">
     <input name="month" value="{{month}}" type="hidden">
@@ -36,3 +41,11 @@
     <input type="submit">
         
 </form>
+
+{% for f in formset %}
+        {{ f }}
+        {{ forloop.counter0 }}
+
+        <br>
+
+    {% endfor %}

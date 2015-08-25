@@ -56,6 +56,7 @@ class MonthlyReport(models.Model):
 
     
 class Shift(models.Model):
+    start_date = models.DateField()
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     length = models.DurationField(blank=True, editable = False  )
