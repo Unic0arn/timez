@@ -29,10 +29,11 @@ def savereport(request):
     month = request.POST['month']
 
 
-    monthdate = date(year,month,1)
+    monthdate = date(int(year),int(month),1)
     userobj = request.user
     try:
         report = MonthlyReport.objects.get(user=userobj,month=monthdate)
+        old_shifts = report.shift_set.all().delete() #Ugly solution will work for now.
         newreport = False
     except ObjectDoesNotExist:
         month_field = datetime.strptime(year +":"+ month, "%Y:%m")
@@ -59,7 +60,7 @@ def savereport(request):
 
                     midnight = datetime.strptime('00:00', "%H:%M").time()
                     new_end_time = datetime.combine(end_date, midnight)
-                    newshift = Shift(start_date = new_start_time.date(), start_time = new_start_time, end_time = new_end_time,monthly_report = new_report)
+                    newshift = Shift(start_date = new_start_time.date(), start_time = new_start_time, end_time = new_end_time,monthly_report = report)
                     newshift.save()
 
                     new_start_time = new_end_time
@@ -73,7 +74,7 @@ def savereport(request):
             else:
                 new_end_time = datetime.combine(x, end)
                 
-            newshift = Shift(start_date = new_start_time.date(), start_time = new_start_time, end_time = new_end_time,monthly_report = new_report)
+            newshift = Shift(start_date = new_start_time.date(), start_time = new_start_time, end_time = new_end_time,monthly_report = report)
             newshift.save()
         except KeyError:
             pass
