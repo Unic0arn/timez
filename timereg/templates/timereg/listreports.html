@@ -5,7 +5,14 @@
 {% block content %}
     {% if reports %}
         {% for r in reports %}
-           <a href="/timereg/showreport/{{r.month.year}}/{{r.month.month}}"> {{r.month}}</a><br>
+           <a href="/timereg/showreport/{{r.month.year}}/{{r.month.month}}"> {{r.month}}</a>
+            <form action="/timereg/entershifts/" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="year" value="{{ r.month.year }}"/>
+                <input type="hidden" name="month" value="{{ r.month.month }}"/>
+                <button type="submit" value="{{r.month.year}}-{{r.month.month}}" name="" id="frm1_submit">Edit</button>
+            </form>
+            <br>
         
         
         

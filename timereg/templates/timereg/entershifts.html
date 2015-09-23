@@ -31,7 +31,7 @@ $(function() {
                });
         }
     });
-    $('.date-picker').datepicker('setDate', new Date())
+    $('.date-picker').datepicker('setDate', new Date({{ year }},{{ month }}-1,1))
 });
 </script>
 <style>

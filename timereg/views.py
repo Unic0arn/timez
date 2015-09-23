@@ -85,8 +85,18 @@ def savereport(request):
 
 @login_required
 def entershifts(request):
+    if request.method == 'POST':
+        print(request.POST)
+    try:
+        month = int(request.POST['month'])
+        year = int(request.POST['year'])
+    except KeyError as e:
+        newdate = date.today()
+        year = newdate.year
+        month = newdate.month
+
     template = loader.get_template('timereg/entershifts.html')
-    context = RequestContext(request, {})
+    context = RequestContext(request, {'month':month,'year':year})
     return HttpResponse(template.render(context))
 
 @login_required
